@@ -5,26 +5,61 @@
     <title>Title</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+    <style>
+        #poster {
+            width: 200px;
+            height: 200px;
+        }
+
+        td.border_info {
+        padding-top: 6em;
+        }
+    </style>
+
 </head>
 <body>
-    <h1 class="text-center">Storing API data in table</h1>
+    <h1 class="text-center">Movie Collections</h1>
+
+    <div class="d-flex justify-content-center">
+        <div id="loading" class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
 
     <div class="container">
         <table class="table">
             <thead>
             <tr class="table-dark">
-                <th scope="col">Title</th>
-                <th scope="col">Author</th>
+                <th scope="col">Movie Title</th>
+                <th scope="col">Director</th>
+                <th scope="col">Year</th>
+                <th scope="col">Rating</th>
+                <th scope="col">Genre</th>
+                <th scope="col">Poster</th>
             </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+            <tr id="t-body">
+<!--                <td class="border">${movie.title}</td>-->
+<!--                <td class="border">${movie.director}</td>-->
+<!--                <td class="border">${movie.year}</td>-->
+<!--                <td class="border">${movie.rating}</td>-->
+<!--                <td class="border">${movie.genre}</td>-->
+<!--                <td id="img-poster" class="border"><img src="" alt="movie poster"></td>-->
+            </tr>
+            </tbody>
         </table>
     </div>
 
+    <div id="image-body">
+
+    </div>
 
 
+    <script src="js/keys.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script src="js/movies.js"></script>
+
 </body>
 </html>
