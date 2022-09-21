@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -14,11 +14,69 @@
         td.border_info {
         padding-top: 6em;
         }
+        #movieSearch {
+           margin-left: 53em;
+        }
+        input {
+            width: 100%;
+        }
+
+        input#movieYear {
+            width: 125%;
+        }
     </style>
 
 </head>
 <body>
     <h1 class="text-center">Movie Collections</h1>
+
+    <div class="container">
+        <div class="row">
+
+                <div class="col">
+                    <label for="movieInput">Title</label>
+                    <input type="text" id="movieInput">
+                </div>
+                <div class="col">
+                    <label for="movieDirec">Director</label>
+                    <input type="text" id="movieDirec">
+                </div>
+                <div class="col-1">
+                    <label for="movieYear">Year</label>
+                    <input type="number" id="movieYear" name="movieYear" min="1888" max="2022">
+                </div>
+                <div class="col-1">
+                    <label for="movieRate">Rating</label>
+                    <input type="number" id="movieRate" name="movieRate" min="1" max="10.0">
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <label for="movieGen">Genre</label>
+                        <select id="movieGen" name="genre">
+                            <option value="Action">Action</option>
+                            <option value="Comedy">Comedy</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Fantasy">Fantasy</option>
+                            <option value="Horror">Horror</option>
+                            <option value="Mystery">Mystery</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Thriller">Thriller</option>
+                            <option value="Romantic Comedy">Romantic Comedy</option>
+                        </select>
+                    </div>
+
+<!--                    <input type="text" id="movieGen">-->
+                </div>
+
+
+        </div>
+        <div class="row my-3">
+            <div class="col">
+                <button id="btn-submit" type="button">submit</button>
+            </div>
+        </div>
+    </div>
+
 
     <div class="d-flex justify-content-center">
         <div id="loading" class="spinner-border" role="status">
