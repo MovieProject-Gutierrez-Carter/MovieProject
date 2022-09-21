@@ -56,7 +56,9 @@ $('#btn-submit').on('click', function () {
     // created variables to store the input fields submitted by the user
     let rating = $('#movieRate').val();
     let year = $('#movieYear').val();
-    let genre = $('select option').each(index,item);
+    let genre = $('select option').each(function () {
+        $(this).val();
+    });
     console.log(genre);
     console.log(rating);
 
