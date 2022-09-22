@@ -13,7 +13,7 @@ function searchMovie(title)
     }).then(data => {
         console.log(data);
         console.log(data.Error);
-// created an if/else statement, then query id of movie-error, on click of the submit button will change the text.
+        // created an if/else statement, then query id of movie-error, on click of the submit button will change the text.
         if(data.Error === 'Movie not found!')
         {
             $('#movie-error').text(data.Error);
@@ -26,7 +26,7 @@ function searchMovie(title)
             let movYear = data.Year;
             let movRat = data.imdbRating;
             let movGenre = data.Genre;
-// logged all movie info to view.
+            // logged all movie info to view.
             console.log(movTitle);
             console.log(movDirec);
             console.log(movYear);
@@ -74,85 +74,42 @@ return data.json()
 
         }).catch(error => console.error(error));
 
-tableData +=  `<tr>
-    <td class="border border_info">${movie.title}</td>
-    <td class="border border_info">${movie.director}</td>
-    <td class="border border_info">${movie.year}</td>
-    <td class="border border_info">${movie.rating}</td>
-    <td class="border border_info">${movie.genre}</td>
-    <td class="border width-100"><img  id="poster" src="https://image.tmdb.org/t/p/original${movie.img}" alt="movie poster"></td>
-             </tr>`
-// console.log(movie.img);
-});
-$('tbody').html(tableData);
-$('#loading').css('visibility', 'hidden')
+        // set html elements along with movie data to tableData
+        tableData +=  `<tr>
+            <td class="border border_info">${movie.title}</td>
+            <td class="border border_info">${movie.director}</td>
+            <td class="border border_info">${movie.year}</td>
+            <td class="border border_info">${movie.rating}</td>
+            <td class="border border_info">${movie.genre}</td>`
+        // use if/else statement, if movie image is null then show not found image, else image is found then show original movie poster
+            if(movie.img === null)
+        {
+            tableData += `<td class="border width-100"><img  id="poster" src="https://demofree.sirv.com/nope-not-here.jpg" alt="movie poster"></td>
+                 </tr>`
+        }
+        else
+        {
+            tableData += `<td class="border width-100"><img  id="poster" src="https://image.tmdb.org/t/p/original${movie.img}" alt="movie poster"></td>
+                 </tr>`
+        }
+
+    // console.log(movie.img);
+    });
+    // use tbody element in html with value of tableData
+    // show loading spinner with id of loading with css styling
+    // use catch error function and log error
+    $('tbody').html(tableData);
+    $('#loading').css('visibility', 'hidden')
 }).catch(error => console.error(error));
 
+// connect button functionality on click function using id of btn-submit
 $('#btn-submit').on('click', function () {
-    // // created variables to store the input fields submitted by the user
-    // let rating = $('#movieRate').val();
-    // let year = $('#movieYear').val();
-    // let genre = $('select option').each(function () {
-    //     $(this).val();
-    // });
-    // // console.log(genre);
-    // // console.log(rating);
-    //
-    // //create a condition to capture any errors in the input fields, also to clear out the input fields if incorrect
-    //
-    // if(rating === "" && year === "")
-    // {
-    //     $('#movieRate').val('');
-    //     $('#movieYear').val('');
-    //     alert(`If you typed e on the year field and on the rating field and submitted, e is not a number, please try again`);
-    // }
-    // else if(rating === "")
-    // {
-    //     $('#movieRate').val('');
-    //     alert(`If you typed e on the rating field and submitted, e is not a number, please try again`);
-    // }
-    // else if(rating < 1 || rating > 10)
-    // {
-    //     $('#movieRate').val("");
-    //     alert(`If you typed a number less than 1 or a number higher than 10, please try again`);
-    // }
-    // else if(year === '')
-    // {
-    //     $('#movieYear').val('');
-    //
-    //     alert(`If you typed e on the year field and submitted, e is not a number, please try again`);
-    // }
-    // else if(year < 1888 || year > 2022)
-    // {
-    //     $('#movieYear').val('');
-    //     alert('year is too low or too high')
-    // }
-    // else
-    // {
-    //
-    // }
+    // created a variable of searchResults and give it a value of the id of movieInput
     let searchResults = $('#movieInput').val();
     console.log(searchResults);
 
+    //call searchMovie function and pass searchResults
     searchMovie(searchResults);
-
-    // fetch(`https://www.omdbapi.com/?t=jhgjhghj&apikey=${MOVIE_API_KEY}`).then((data) => {
-    //     console.log(data);
-    //     return data.json()
-    //
-    // }).then(data => {
-    //     console.log(data);
-    //     console.log(data.Error);
-    //
-    //     if(data.Error === 'Movie not found!')
-    //     {
-    //         $('#movie-error').text(data.Error);
-    //     }
-    //
-    //
-    //
-    // })
-
 });
 
 
