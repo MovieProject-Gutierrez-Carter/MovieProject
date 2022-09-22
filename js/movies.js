@@ -47,17 +47,23 @@ function loadMovies()
                 <td class="border border_info">${movie.title}</td>
                 <td class="border border_info">${movie.director}</td>
                 <td class="border border_info">${movie.year}</td>
-                <td class="border border_info">${movie.rating}</td>
-                <td class="border border_info">${movie.genre}</td>`
+                <td class="border border_info">
+                    <input class="edit" type="number" min="1.0" max="10.0" disabled="true" placeholder="${movie.rating}">
+                </td>
+                <td class="border border_info">
+                    <input class="edit" type="text" disabled="true" placeholder="${movie.genre}">
+                </td>`
             // use if/else statement, if movie image is null then show not found image, else image is found then show original movie poster
             if(movie.img === null)
             {
                 tableData += `<td class="border width-100"><img  id="poster" src="https://demofree.sirv.com/nope-not-here.jpg" alt="movie poster"></td>
+                               <td class="border border_info"><button id="edit-btn" type="button">Edit Movie</button></td>
                      </tr>`
             }
             else
             {
                 tableData += `<td class="border width-100"><img  id="poster" src="https://image.tmdb.org/t/p/original${movie.img}" alt="movie poster"></td>
+                              <td class="border border_info"><button id="edit-btn" type="button">Edit Movie</button></td>
                      </tr>`
             }
 
@@ -68,7 +74,16 @@ function loadMovies()
         // use catch error function and log error
         $('tbody').html(tableData);
         $('#loading').css('visibility', 'hidden')
+
+        //added a btn on click function for #edit-btn to pop up a dialog box to update movie information
+        $('button, #edit-btn').on('click', function(){
+            $('.edit').attr('disabled', 'false')
+
+            // loadMovies();
+        });
     }).catch(error => console.error(error));
+
+
 }
 
 // created a function of addMovie that has a parameter of title then fetch the title and the api, returned data with json, logged data.
@@ -91,7 +106,6 @@ function addMovie(title)
         else
         {
             console.log(data.Title);
-            $('#movie-error').text("Correct");
             let movTitle = data.Title;
             let movDirec = data.Director;
             let movYear = data.Year;
@@ -176,12 +190,9 @@ function addMovie(title)
                                 },
                                 body: JSON.stringify(addMovieInfo),
 
-                            }).catch(error => console.error(error));
+                            }).then(() => loadMovies()).catch(error => console.error(error));
 
                         }).catch(error => console.error(error));
-
-                    //call loadMovies function
-                    loadMovies();
                 }
                 console.log(movieAdd);
             }).catch(error => console.error(error));
@@ -205,7 +216,7 @@ $('#btn-submit').on('click', function () {
 //created a function to remove the error below the input field once the user starts typing
 $('#movieInput').keydown(function () {
     $('#movie-error').text("");
-})
+});
 
 
 
