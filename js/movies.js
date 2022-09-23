@@ -59,7 +59,7 @@ function loadMovies()
             {
                 tableData += `<td class="border width-100"><img  id="poster" src="https://demofree.sirv.com/nope-not-here.jpg" alt="movie poster"></td>
                                <td class="edit border border_info">
-                                   <button id="edit-btn" type="button" class="edit">Edit Movie</button>
+                                   <button data-bs-target="#edit" id="edit-btn" type="button" class="edit">Edit Movie</button>
                                   <span class="invisible">${count++}</span>
                                   <p></p>
                                   <button disabled class="edit" id="save-edit-btn">Save Edit</button>
@@ -72,7 +72,7 @@ function loadMovies()
             {
                 tableData += `<td class="border width-100"><img  id="poster" src="https://image.tmdb.org/t/p/original${movie.img}" alt="movie poster"></td>
                               <td class="border border_info">
-                                  <button id="edit-btn" type="button" class="edit">Edit Movie</button>
+                                  <button data-bs-target="#edit" id="edit-btn" type="button" class="edit">Edit Movie</button>
                                   <span class="invisible">${count++}</span>
                                   <p></p>
                                   <button disabled class="edit" id="save-edit-btn">Save Edit</button>
@@ -157,7 +157,28 @@ function loadMovies()
                     $(this).attr('disabled', false).on('click', function(){
                         console.log(numRating);
                         console.log(stringGenre);
-                        // $('#rate')
+
+                        let rValue = $('#rate').val();
+                        let gValue = $('#genre-movie').val();
+
+
+
+
+                        console.log(rValue);
+                        console.log(gValue);
+
+                        if(gValue !== '')
+                        {
+                            let newString = "";
+
+                            newString = gValue.split(" ");
+
+
+
+                        }
+
+                        console.log(newString);
+
                     });
                 }
             });
