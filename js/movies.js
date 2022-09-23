@@ -163,7 +163,10 @@ function loadMovies()
                         // console.log(stringGenre);
 
                         // rValue = $('#rate.edit').val();
-                        gValue = $('#genre-movie').text();
+                        // gValue = $(this).parent().next().children[0];
+                        console.log(num);
+                        console.log($(parent).find('input'));
+                        console.log(gValue);
 
                         // console.log(rValue.text());
                         // console.log(gValue);
@@ -182,7 +185,7 @@ function loadMovies()
                             });
 
                             gValue = stringArr.join(" ");
-                            // console.log(gValue);
+                            console.log(gValue);
                         }
 
 
@@ -192,13 +195,18 @@ function loadMovies()
                             // console.log($(this).val());
                             rValue = $(this).val();
 
+
+
                             // console.log(rValue);
 
                             // $(this).css('background-color', 'red').val('').attr('placeholder', numRating);
                             if(index == num)
                             {
+
+
                                 if(rValue === '' && gValue === '')
                                 {
+                                    console.log(gValue);
                                     // console.log(num);
 
                                     alert("You did not make any changes to either the rating or the genre section!!!")
@@ -214,11 +222,34 @@ function loadMovies()
                                 }
                                 else
                                 {
+                                    console.log(gValue);
 
                                 }
 
                             }
                         });
+
+                        // $('#genre-movie.edit').each(function(index, item){
+                        //     gValue = $(this).val();
+                        //
+                        //
+                        //     if(index == num)
+                        //     {
+                        //         console.log(gValue);
+                        //
+                        //         if(rValue === '' && gValue === '')
+                        //         {
+                        //             console.log(gValue);
+                        //             // console.log(num);
+                        //
+                        //             alert("You did not make any changes to either the rating or the genre section!!!")
+                        //         }
+                        //     }
+
+
+                        // });
+
+                        // alert('add edit')
 
                     });
                 }
