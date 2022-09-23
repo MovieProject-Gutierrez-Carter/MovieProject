@@ -179,6 +179,7 @@ function loadMovies()
                             });
 
                             gValue = stringArr.join(" ");
+                            console.log(gValue);
                         }
 
                     });
