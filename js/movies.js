@@ -13,6 +13,7 @@ function loadMovies()
 
         // console.log(data);
         let tableData = "";
+        let count = 0;
         data.map(movie => {
             let img = "";
 
@@ -48,10 +49,10 @@ function loadMovies()
                 <td class="border border_info">${movie.director}</td>
                 <td class="border border_info">${movie.year}</td>
                 <td class="border border_info">
-                    <input class="edit" type="number" min="1.0" max="10.0" disabled="true" placeholder="${movie.rating}">
+                    <input id="rate" class="edit" type="number" min="1.0" max="10.0" disabled="true" placeholder="${movie.rating}">
                 </td>
                 <td class="border border_info">
-                    <input class="edit" type="text" disabled="true" placeholder="${movie.genre}">
+                    <input id="genre-movie" class="edit" type="text" disabled="true" placeholder="${movie.genre}">
                 </td>`
             // use if/else statement, if movie image is null then show not found image, else image is found then show original movie poster
             if(movie.img === null)
@@ -63,7 +64,7 @@ function loadMovies()
             else
             {
                 tableData += `<td class="border width-100"><img  id="poster" src="https://image.tmdb.org/t/p/original${movie.img}" alt="movie poster"></td>
-                              <td class="border border_info"><button id="edit-btn" type="button">Edit Movie</button></td>
+                              <td class="border border_info"><button id="edit-btn" type="button">Edit Movie</button><span>${count++}</span></td>
                      </tr>`
             }
 
@@ -76,8 +77,42 @@ function loadMovies()
         $('#loading').css('visibility', 'hidden')
 
         //added a btn on click function for #edit-btn to pop up a dialog box to update movie information
-        $('button, #edit-btn').on('click', function(){
-            $('.edit').attr('disabled', 'false')
+        $('button').on('click', function(){
+
+            let num = 0;
+
+            num = $(this).parent().find('span').text();
+
+            console.log($(this).parent().find('span').text());
+            // console.log($(this));
+            // let rating = $('.edit').find($('#rate').val());
+            let rating = $('#rate.edit');
+            console.log(rating);
+
+            // let rating = $('#rate');
+            // let theRating = rating;
+            console.log(rating[num].attributes[6].value);
+            // console.log(rating[num].css('background-color', 'pink'));
+
+            // console.log(theRating);
+            // $('.edit').css('background-color', 'blue')
+           $('#rate.edit').each(function(index, item){
+               if(index == num)
+               {
+                   let rValue = $(this);
+                   // let test = rValue;
+                   $(this).attr('disabled', false);
+                   // console.log(test);
+
+               }
+           });
+
+            $('#genre-movie.edit').each(function(index, item){
+                if(index == num)
+                {
+                    $(this).attr('disabled', false);
+                }
+            });
 
             // loadMovies();
         });
