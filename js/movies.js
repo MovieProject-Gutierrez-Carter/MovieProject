@@ -73,7 +73,7 @@ function loadMovies()
                                   <button id="edit-btn" type="button" class="edit">Edit Movie</button>
                                   <span class="invisible">${count++}</span>
                                   <p></p>
-                                  <button class="edit invisible" id="save-edit-btn">Save Edit</button>
+                                  <button class="invisible" id="save-edit-btn">Save Edit</button>
                               </td>
                      </tr>`
             }
@@ -99,10 +99,12 @@ function loadMovies()
             //assign the value in span element to the num
             num = $(this).parent().find('span').text();
 
-            $('#edit-btn.edit').on(function(index, item){
+            console.log(num);
+
+            $(this).on(function(index, item){
                 if(index == num)
                 {
-                    $('#edit-btn').css('background-color', 'green');
+                    $(this).css('background-color', 'green');
                 }
 
             });
@@ -174,6 +176,11 @@ function addMovie(title)
         if(data.Error === 'Movie not found!')
         {
             $('#movie-error').text(data.Error);
+            $('#movieInput').val('');
+        }
+        else if(title === '')
+        {
+            $('#movie-error').text('You left your title search empty, please enter a movie to try again');
             $('#movieInput').val('');
         }
         else
