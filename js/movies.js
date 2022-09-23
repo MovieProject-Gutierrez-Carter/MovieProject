@@ -97,7 +97,7 @@ function loadMovies()
 
             //create variables to store movie data for editing
             let num = 0;
-            let numRating = 0;
+            let numRating = 0.0;
             let stringGenre = "";
 
             //assign the value in span element to the num
@@ -124,7 +124,7 @@ function loadMovies()
             // console.log(genreInfo);
 
             //assign the values from the current elements of rating and genre in the appropriate variables
-            numRating = parseInt(rating[num].attributes[6].value);
+            numRating = parseFloat(rating[num].attributes[6].value);
             stringGenre = genreInfo[num].attributes.placeholder.value;
 
             // console.log(numRating);
@@ -154,7 +154,11 @@ function loadMovies()
 
                 if(index == num)
                 {
-                    $(this).attr('disabled', false);
+                    $(this).attr('disabled', false).on('click', function(){
+                        console.log(numRating);
+                        console.log(stringGenre);
+                        // $('#rate')
+                    });
                 }
             });
 
