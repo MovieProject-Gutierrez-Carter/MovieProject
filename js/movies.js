@@ -158,26 +158,28 @@ function loadMovies()
                         console.log(numRating);
                         console.log(stringGenre);
 
+                        //create variables to hold the rValue and the gValue
                         let rValue = $('#rate').val();
                         let gValue = $('#genre-movie').val();
-
-
-
 
                         console.log(rValue);
                         console.log(gValue);
 
+                        //if gValue is not empty then uppercase the first letter of every word
                         if(gValue !== '')
                         {
                             let newString = "";
 
                             newString = gValue.split(" ");
+                            let stringArr = [];
 
+                            //upper case the first letter and rejoin the words
+                            stringArr = newString.map(element => {
+                                return element.charAt(0).toUpperCase() + element.slice(1).toLowerCase();
+                            });
 
-
+                            gValue = stringArr.join(" ");
                         }
-
-                        console.log(newString);
 
                     });
                 }
