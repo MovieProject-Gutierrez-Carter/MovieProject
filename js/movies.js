@@ -73,7 +73,7 @@ function loadMovies()
                 tableData += `<td class="border width-100"><img  id="poster" src="https://image.tmdb.org/t/p/original${movie.img}" alt="movie poster"></td>
                               <td class="border border_info">
                                   <button data-bs-target="#edit" id="edit-btn" type="button" class="edit">Edit Movie</button>
-                                  <span class="invisible">${count++}</span>
+                                  <span>${count++}</span>
                                   <p></p>
                                   <button disabled class="edit" id="save-edit-btn">Save Edit</button>
                                   <p></p>
@@ -151,19 +151,22 @@ function loadMovies()
 
             //create an each function for the #save-edit-btn to display the save edit button
             $('#save-edit-btn.edit').each(function(index, item){
+                //create variables to hold the rValue and the gValue
+                let rValue = "";
+                let gValue = "";
+                // console.log($('#rate.edit'));
 
                 if(index == num)
                 {
                     $(this).attr('disabled', false).on('click', function(){
-                        console.log(numRating);
-                        console.log(stringGenre);
+                        // console.log(numRating);
+                        // console.log(stringGenre);
 
-                        //create variables to hold the rValue and the gValue
-                        let rValue = $('#rate').val();
-                        let gValue = $('#genre-movie').val();
+                        // rValue = $('#rate.edit').val();
+                        gValue = $('#genre-movie').text();
 
-                        console.log(rValue);
-                        console.log(gValue);
+                        // console.log(rValue.text());
+                        // console.log(gValue);
 
                         //if gValue is not empty then uppercase the first letter of every word
                         if(gValue !== '')
@@ -179,8 +182,43 @@ function loadMovies()
                             });
 
                             gValue = stringArr.join(" ");
-                            console.log(gValue);
+                            // console.log(gValue);
                         }
+
+
+                        //create an each function to loop through the elements and make sure that the user didn't leave both input fields empty or the rating is less than 1 or grater than 10
+                        $('#rate.edit').each(function(index, item){
+                            console.log(index);
+                            // console.log($(this).val());
+                            rValue = $(this).val();
+
+                            // console.log(rValue);
+
+                            // $(this).css('background-color', 'red').val('').attr('placeholder', numRating);
+                            if(index == num)
+                            {
+                                if(rValue === '' && gValue === '')
+                                {
+                                    // console.log(num);
+
+                                    alert("You did not make any changes to either the rating or the genre section!!!")
+                                }
+                                // console.log(rValue);
+                                else if(rValue < 1 || rValue > 10) {
+
+                                    $(this).css('background-color', 'red').val('').attr('placeholder', numRating);
+
+                                    // rValue = 0.0;
+
+                                    alert('Rating cannot have a input less 1 or greater than 10!!')
+                                }
+                                else
+                                {
+
+                                }
+
+                            }
+                        });
 
                     });
                 }
