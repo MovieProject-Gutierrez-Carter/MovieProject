@@ -63,6 +63,8 @@ function loadMovies()
                                   <span class="invisible">${count++}</span>
                                   <p></p>
                                   <button disabled class="edit" id="save-edit-btn">Save Edit</button>
+                                  <p></p>
+                                  <button disabled class="edit" id="cancel-btn">Cancel</button>
                                </td>
                      </tr>`
             }
@@ -74,6 +76,8 @@ function loadMovies()
                                   <span class="invisible">${count++}</span>
                                   <p></p>
                                   <button disabled class="edit" id="save-edit-btn">Save Edit</button>
+                                  <p></p>
+                                  <button disabled class="edit" id="cancel-btn">Cancel</button>
                               </td>
                      </tr>`
             }
@@ -103,17 +107,10 @@ function loadMovies()
             // console.log($('#edit-btn.edit').length);
 
 
+            //creat an each function for the #edit-btn to disable the edit btn when an edit btn is click to only allow the user to edit one move at a time
             $('#edit-btn.edit').each(function(index, item){
 
-                if(index == num)
-                {
-                    $(this).css('background-color', 'green');
-                }
-                else
-                {
-                    // $(this).css('background-color', 'red');
-                    $(this).attr('disabled', true)
-                }
+                $('#edit-btn.edit').attr('disabled', true);
 
             });
 
@@ -158,6 +155,17 @@ function loadMovies()
                 if(index == num)
                 {
                     $(this).attr('disabled', false);
+                }
+            });
+
+            $('#cancel-btn.edit').each(function(index, item){
+
+                if(index == num)
+                {
+                    $(this).attr('disabled', false).on('click', function(){
+                        loadMovies();
+                    })
+
                 }
             });
 
