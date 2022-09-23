@@ -58,13 +58,17 @@ function loadMovies()
             if(movie.img === null)
             {
                 tableData += `<td class="border width-100"><img  id="poster" src="https://demofree.sirv.com/nope-not-here.jpg" alt="movie poster"></td>
-                               <td class="border border_info"><button id="edit-btn" type="button">Edit Movie</button></td>
+                               <td class="border border_info"><button id="edit-btn" type="button">Edit Movie</button><span class="invisible">${count++}</span></td>
                      </tr>`
             }
             else
             {
                 tableData += `<td class="border width-100"><img  id="poster" src="https://image.tmdb.org/t/p/original${movie.img}" alt="movie poster"></td>
-                              <td class="border border_info"><button id="edit-btn" type="button">Edit Movie</button><span>${count++}</span></td>
+                              <td class="border border_info">
+                                  <button id="edit-btn" type="button">Edit Movie</button>
+                                  <span class="invisible">${count++}</span>
+                                  <button class="edit invisible" id="save-edit-btn">Save Edit</button>
+                              </td>
                      </tr>`
             }
 
@@ -79,38 +83,53 @@ function loadMovies()
         //added a btn on click function for #edit-btn to pop up a dialog box to update movie information
         $('button').on('click', function(){
 
+            //create variables to store movie data for editing
             let num = 0;
+            let numRating = 0;
+            let stringGenre = "";
 
+            //assign the value in span element to the num
             num = $(this).parent().find('span').text();
 
-            console.log($(this).parent().find('span').text());
-            // console.log($(this));
-            // let rating = $('.edit').find($('#rate').val());
+            // console.log($(this).parent().find('span').text());
+
+            //assign the objects from the elements of #rate and #genre-movie in the appropriate variables
             let rating = $('#rate.edit');
-            console.log(rating);
+            let genreInfo = $('#genre-movie.edit')
 
-            // let rating = $('#rate');
-            // let theRating = rating;
-            console.log(rating[num].attributes[6].value);
-            // console.log(rating[num].css('background-color', 'pink'));
+            // console.log(rating);
+            // console.log(genreInfo);
 
-            // console.log(theRating);
-            // $('.edit').css('background-color', 'blue')
+            //assign the values from the current elements of rating and genre in the appropriate variables
+            numRating = parseInt(rating[num].attributes[6].value);
+            stringGenre = genreInfo[num].attributes.placeholder.value;
+
+            console.log(numRating);
+            console.log(stringGenre);
+
+            // console.log(rating[num].attributes[6].value);
+
+            //create an each function for the #rate to enable editing
            $('#rate.edit').each(function(index, item){
                if(index == num)
                {
-                   let rValue = $(this);
-                   // let test = rValue;
                    $(this).attr('disabled', false);
-                   // console.log(test);
-
                }
            });
 
+           //create an each function for the #genre-movie to enable editing
             $('#genre-movie.edit').each(function(index, item){
                 if(index == num)
                 {
                     $(this).attr('disabled', false);
+                }
+            });
+
+            //create an each function for the #save-edit-btn to display the save edit button
+            $('#save-edit-btn.edit').each(function(index, item){
+                if(index == num)
+                {
+                    $(this).attr('class', 'visible');
                 }
             });
 
