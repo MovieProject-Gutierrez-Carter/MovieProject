@@ -58,11 +58,11 @@ function loadMovies()
             if(movie.img === null)
             {
                 tableData += `<td class="border width-100"><img  id="poster" src="https://demofree.sirv.com/nope-not-here.jpg" alt="movie poster"></td>
-                               <td class="border border_info">
-                                   <button id="edit-btn" type="button">Edit Movie</button>
-                                   <spac class="invisible">${count++}</span>
-                                   <p></p>
-                                  <button class="edit invisible" id="save-edit-btn">Save Edit</button>
+                               <td class="edit border border_info">
+                                   <button id="edit-btn" type="button" class="edit">Edit Movie</button>
+                                  <span class="invisible">${count++}</span>
+                                  <p></p>
+                                  <button disabled class="edit" id="save-edit-btn">Save Edit</button>
                                </td>
                      </tr>`
             }
@@ -73,7 +73,7 @@ function loadMovies()
                                   <button id="edit-btn" type="button" class="edit">Edit Movie</button>
                                   <span class="invisible">${count++}</span>
                                   <p></p>
-                                  <button class="invisible" id="save-edit-btn">Save Edit</button>
+                                  <button disabled class="edit" id="save-edit-btn">Save Edit</button>
                               </td>
                      </tr>`
             }
@@ -87,7 +87,7 @@ function loadMovies()
         $('#loading').css('visibility', 'hidden')
 
         //added a btn on click function for #edit-btn to pop up a dialog box to update movie information
-        $('button').on('click', function(){
+        $('#edit-btn.edit').on('click', function(){
 
 
 
@@ -99,12 +99,20 @@ function loadMovies()
             //assign the value in span element to the num
             num = $(this).parent().find('span').text();
 
-            console.log(num);
+            // console.log(num);
+            // console.log($('#edit-btn.edit').length);
 
-            $(this).on(function(index, item){
+
+            $('#edit-btn.edit').each(function(index, item){
+
                 if(index == num)
                 {
                     $(this).css('background-color', 'green');
+                }
+                else
+                {
+                    // $(this).css('background-color', 'red');
+                    $(this).attr('disabled', true)
                 }
 
             });
@@ -122,8 +130,8 @@ function loadMovies()
             numRating = parseInt(rating[num].attributes[6].value);
             stringGenre = genreInfo[num].attributes.placeholder.value;
 
-            console.log(numRating);
-            console.log(stringGenre);
+            // console.log(numRating);
+            // console.log(stringGenre);
 
             // console.log(rating[num].attributes[6].value);
 
@@ -146,11 +154,10 @@ function loadMovies()
 
             //create an each function for the #save-edit-btn to display the save edit button
             $('#save-edit-btn.edit').each(function(index, item){
-                console.log(typeof index);
-                console.log(typeof parseInt(num));
-                if(index === parseInt(num))
+
+                if(index == num)
                 {
-                    $('#edit-btn').attr('class', 'invisible');
+                    $(this).attr('disabled', false);
                 }
             });
 
