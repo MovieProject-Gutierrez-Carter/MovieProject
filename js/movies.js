@@ -74,8 +74,8 @@ function loadMovies()
             {
                 tableData += `<td class="border width-100"><img  id="poster" src="https://image.tmdb.org/t/p/original${movie.img}" alt="movie poster"></td>
                               <td class="border border_info d-flex flex-column justify-content-start align-items-start py-1" id="edit-field">
-                                  <button data-bs-target="#edit" id="edit-btn" type="button" class="edit invisible">Edit Movie</button>
-                                  <span>${count++}</span>
+                                  <button data-bs-target="#edit" id="edit-btn" type="button" class="edit">Edit Movie</button>
+                                  <span class="invisible">${count++}</span>
                                   <p></p>
                                   <button disabled class="edit" id="save-edit-btn">Save Edit</button>
                                   <p></p>
@@ -468,6 +468,14 @@ function addMovie(title)
 }
 
 loadMovies();
+
+$('.sort-table').on('click', function(){
+    $('.table-sortable').sortable();
+});
+
+
+
+// $('.table-sortable').tsortable();
 
 // connect button functionality on click function using id of btn-submit
 $('#btn-submit').on('click', function () {
