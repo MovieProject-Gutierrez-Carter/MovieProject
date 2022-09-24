@@ -45,7 +45,7 @@ function loadMovies()
 
             // set html elements along with movie data to tableData
             tableData +=  `<tr>
-                <td class="border border_info">${movie.title}</td>
+                <td class="border border_info">${movie.title}<p></p><span id="movie-id" class="edit">${movie.id}</span></td>
                 <td class="border border_info">${movie.director}</td>
                 <td class="border border_info">${movie.year}</td>
                 <td class="border border_info">
@@ -98,6 +98,7 @@ function loadMovies()
             //create variables to store movie data for editing
             let num = 0;
             let numRating = 0.0;
+            let movieID = 0;
             let stringGenre = "";
             let rValue = "";
             let gValue = "";
@@ -177,6 +178,15 @@ function loadMovies()
                             }
                         });
 
+                        //capture the value of the movie id field
+                        $('#movie-id.edit').each(function(index, item){
+
+                            if(index == num)
+                            {
+                                movieID = $(this).text();
+                            }
+                        });
+
                         // console.log(rValue);
                         // console.log(numRating);
                         // console.log(gValue);
@@ -249,114 +259,30 @@ function loadMovies()
                             gValue = stringArr.join(" ");
                             console.log(rValue);
                             console.log(gValue);
+                            console.log(movieID);
+
+                            //create a variable to edith the rating and genre fields in our glitch server
+                            const editMovie = {
+                                "rating": rValue,
+                                "genre": gValue
+                            };
+
+                            //update data
+                            fetch(`https://uncovered-real-smartphone.glitch.me/movies/${movieID}`, {
+                                method: 'PATCH',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(editMovie),
+                            }).then(() => fetch('https://uncovered-real-smartphone.glitch.me/movies').then(resp => resp.json()).then(data =>{
+                                // console.log(data)
+                            })).then(() => loadMovies()).catch(error => console.error(error));
+
+
                         }
 
                     });
                 }
-
-
-                //create variables to hold the rValue and the gValue
-                // let rValue = "";
-                // let gValue = "";
-                // console.log($('#rate.edit'));
-                //
-                // if(index == num)
-                // {
-                //     $(this).attr('disabled', false).on('click', function(){
-                //         // console.log(numRating);
-                //         // console.log(stringGenre);
-                //
-                //         // rValue = $('#rate.edit').val();
-                //         // gValue = $(this).parent().next().children[0];
-                //         console.log(num);
-                //         console.log($(parent).find('input'));
-                //         console.log(gValue);
-                //
-                //         // console.log(rValue.text());
-                //         // console.log(gValue);
-                //
-                //         //if gValue is not empty then uppercase the first letter of every word
-                //         if(gValue !== '')
-                //         {
-                //             let newString = "";
-                //
-                //             newString = gValue.split(" ");
-                //             let stringArr = [];
-                //
-                //             //upper case the first letter and rejoin the words
-                //             stringArr = newString.map(element => {
-                //                 return element.charAt(0).toUpperCase() + element.slice(1).toLowerCase();
-                //             });
-                //
-                //             gValue = stringArr.join(" ");
-                //             console.log(gValue);
-                //         }
-                //
-                //
-                //         //create an each function to loop through the elements and make sure that the user didn't leave both input fields empty or the rating is less than 1 or grater than 10
-                //         $('#rate.edit').each(function(index, item){
-                //             console.log(index);
-                //             // console.log($(this).val());
-                //             rValue = $(this).val();
-                //
-                //
-                //
-                //             // console.log(rValue);
-                //
-                //             // $(this).css('background-color', 'red').val('').attr('placeholder', numRating);
-                //             if(index == num)
-                //             {
-                //
-                //
-                //                 if(rValue === '' && gValue === '')
-                //                 {
-                //                     console.log(gValue);
-                //                     // console.log(num);
-                //
-                //                     alert("You did not make any changes to either the rating or the genre section!!!")
-                //                 }
-                //                 // console.log(rValue);
-                //                 else if(rValue < 1 || rValue > 10) {
-                //
-                //                     $(this).css('background-color', 'red').val('').attr('placeholder', numRating);
-                //
-                //                     // rValue = 0.0;
-                //
-                //                     alert('Rating cannot have a input less 1 or greater than 10!!')
-                //                 }
-                //                 else
-                //                 {
-                //                     console.log(gValue);
-                //
-                //                 }
-                //
-                //             }
-                //         });
-                //
-                //         // $('#genre-movie.edit').each(function(index, item){
-                //         //     gValue = $(this).val();
-                //         //
-                //         //
-                //         //     if(index == num)
-                //         //     {
-                //         //         console.log(gValue);
-                //         //
-                //         //         if(rValue === '' && gValue === '')
-                //         //         {
-                //         //             console.log(gValue);
-                //         //             // console.log(num);
-                //         //
-                //         //             alert("You did not make any changes to either the rating or the genre section!!!")
-                //         //         }
-                //         //     }
-                //
-                //
-                //         // });
-                //
-                //         // alert('add edit')
-                //
-                //     });
-                // }
             });
 
             $('#cancel-btn.edit').each(function(index, item){
@@ -409,12 +335,12 @@ function addMovie(title)
             let movRat = data.imdbRating;
             let movGenre = data.Genre;
             let tableData = ""
-            // logged all movie info to view.
-            console.log(movTitle);
-            console.log(movDirec);
-            console.log(movYear);
-            console.log(movRat);
-            console.log(movGenre);
+            // // logged all movie info to view.
+            // console.log(movTitle);
+            // console.log(movDirec);
+            // console.log(movYear);
+            // console.log(movRat);
+            // console.log(movGenre);
 
             //create a fetch to capture the movie titles and compare it to the movieTitle
             fetch('https://uncovered-real-smartphone.glitch.me//movies').then((data) =>{
