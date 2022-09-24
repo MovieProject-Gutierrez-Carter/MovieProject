@@ -45,7 +45,7 @@ function loadMovies()
 
             // set html elements along with movie data to tableData
             tableData +=  `<tr>
-                <td class="border border_info">${movie.title}<p></p><span id="movie-id" class="edit">${movie.id}</span></td>
+                <td class="border border_info">${movie.title}<p></p><span id="movie-id" class="edit invisible">${movie.id}</span></td>
                 <td class="border border_info">${movie.director}</td>
                 <td class="border border_info">${movie.year}</td>
                 <td class="border border_info">
@@ -58,26 +58,30 @@ function loadMovies()
             if(movie.img === null)
             {
                 tableData += `<td class="border width-100"><img  id="poster" src="https://demofree.sirv.com/nope-not-here.jpg" alt="movie poster"></td>
-                               <td class="edit border border_info">
+                               <td class="border border_info d-flex flex-column justify-content-start align-items-start py-1" id="edit-field">
                                    <button data-bs-target="#edit" id="edit-btn" type="button" class="edit">Edit Movie</button>
                                   <span class="invisible">${count++}</span>
                                   <p></p>
                                   <button disabled class="edit" id="save-edit-btn">Save Edit</button>
                                   <p></p>
                                   <button disabled class="edit" id="cancel-btn">Cancel</button>
+                                  <p></p>
+                                  <button disabled class="edit" id="delete-btn">Delete</button>
                                </td>
                      </tr>`
             }
             else
             {
                 tableData += `<td class="border width-100"><img  id="poster" src="https://image.tmdb.org/t/p/original${movie.img}" alt="movie poster"></td>
-                              <td class="border border_info">
-                                  <button data-bs-target="#edit" id="edit-btn" type="button" class="edit">Edit Movie</button>
+                              <td class="border border_info d-flex flex-column justify-content-start align-items-start py-1" id="edit-field">
+                                  <button data-bs-target="#edit" id="edit-btn" type="button" class="edit invisible">Edit Movie</button>
                                   <span>${count++}</span>
                                   <p></p>
                                   <button disabled class="edit" id="save-edit-btn">Save Edit</button>
                                   <p></p>
                                   <button disabled class="edit" id="cancel-btn">Cancel</button>
+                                  <p></p>
+                                  <button disabled class="edit" id="delete-btn">Delete</button>
                               </td>
                      </tr>`
             }
@@ -285,6 +289,7 @@ function loadMovies()
                 }
             });
 
+            //if the user clicks the cancel button then call the loadMovie fucntion
             $('#cancel-btn.edit').each(function(index, item){
 
                 if(index == num)
@@ -293,6 +298,44 @@ function loadMovies()
 
                         loadMovies();
                     })
+
+                }
+            });
+
+            //clicking the delete button will delete the movie from the list
+            $('#delete-btn.edit').each(function(index, item){
+                if(index == num)
+                {
+                    $(this).attr('disabled', false).on('click', function(){
+
+                        //create a warring message letting the user know the movie is about to be deleted
+                        let warningMessage = "Are you sure you want to delet this movie from the list!!!";
+
+                        //if the confirm message is true proceed to delete movie
+                        if(confirm(warningMessage) === true)
+                        {
+                            //capture the value of the movie id field
+                            $('#movie-id.edit').each(function(index, item){
+
+                                if(index == num)
+                                {
+                                    movieID = $(this).text();
+                                }
+
+                                //create a fetch delete to remove movie from the list
+                                fetch(`https://uncovered-real-smartphone.glitch.me/movies/${movieID}`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    }
+                                }).then(() => fetch('https://uncovered-real-smartphone.glitch.me/movies').then(resp => resp.json()).then(data =>{
+                                    // console.log(data)
+                                })).then(() => loadMovies()).catch(error => console.error(error));
+                            });
+
+                        }
+                    });
+
 
                 }
             });
