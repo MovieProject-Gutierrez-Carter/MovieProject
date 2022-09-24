@@ -99,6 +99,8 @@ function loadMovies()
             let num = 0;
             let numRating = 0.0;
             let stringGenre = "";
+            let rValue = "";
+            let gValue = "";
 
             //assign the value in span element to the num
             num = $(this).parent().find('span').text();
@@ -124,7 +126,7 @@ function loadMovies()
             // console.log(genreInfo);
 
             //assign the values from the current elements of rating and genre in the appropriate variables
-            numRating = parseFloat(rating[num].attributes[6].value);
+            numRating = parseFloat(rating[num].attributes.placeholder.value);
             stringGenre = genreInfo[num].attributes.placeholder.value;
 
             // console.log(numRating);
@@ -137,7 +139,8 @@ function loadMovies()
            $('#rate.edit').each(function(index, item){
                if(index == num)
                {
-                   $(this).attr('disabled', false);
+                   $(this).attr('disabled', false).val(numRating);
+
                }
            });
 
@@ -145,114 +148,215 @@ function loadMovies()
             $('#genre-movie.edit').each(function(index, item){
                 if(index == num)
                 {
-                    $(this).attr('disabled', false);
+                    $(this).attr('disabled', false).val(stringGenre);
                 }
             });
 
             //create an each function for the #save-edit-btn to display the save edit button
             $('#save-edit-btn.edit').each(function(index, item){
-                //create variables to hold the rValue and the gValue
-                let rValue = "";
-                let gValue = "";
-                // console.log($('#rate.edit'));
 
                 if(index == num)
                 {
                     $(this).attr('disabled', false).on('click', function(){
+
+                        //capture the value of the rating field
+                        $('#rate.edit').each(function(index, item){
+
+                            if(index == num)
+                            {
+                                rValue = $(this).val();
+                            }
+                        });
+
+                        //capture the value of the genre field
+                        $('#genre-movie.edit').each(function(index, item){
+
+                            if(index == num)
+                            {
+                                gValue = $(this).val();
+                            }
+                        });
+
+                        // console.log(rValue);
                         // console.log(numRating);
+                        // console.log(gValue);
                         // console.log(stringGenre);
 
-                        // rValue = $('#rate.edit').val();
-                        // gValue = $(this).parent().next().children[0];
-                        console.log(num);
-                        console.log($(parent).find('input'));
-                        console.log(gValue);
 
-                        // console.log(rValue.text());
-                        // console.log(gValue);
+                        //display a message to the user if both the rating and the genre field are empty
+                        if(rValue === '' && gValue === '')
+                        {
+                            $('#rate.edit').each(function(index, item){
 
-                        //if gValue is not empty then uppercase the first letter of every word
-                        if(gValue !== '')
+                                if(index == num)
+                                {
+                                    $(this).val(numRating)
+                                }
+                            });
+
+                            $('#genre-movie.edit').each(function(index, item){
+
+                                if(index == num)
+                                {
+                                    $(this).val(stringGenre)
+                                }
+                            });
+
+                            alert("You did not make any changes to either the rating or the genre section!!!")
+                        }
+                        //display a message to the user if the genre field is empty
+                        else if(gValue === "")
+                        {
+                            $('#genre-movie.edit').each(function(index, item){
+
+                                if(index == num)
+                                {
+                                    $(this).val(stringGenre)
+                                }
+                            });
+
+                            alert("You cannot have the genre section empty, please try again!!!")
+
+                        }
+                        //display a message to the user if rating is empty, or if it is less than 1 and grater than 10
+                        else if(rValue < 1 || rValue > 10)
+                        {
+                            $('#rate.edit').each(function(index, item){
+
+                                if(index == num)
+                                {
+                                    $(this).val(numRating);
+                                }
+                            });
+
+                            alert('Rating cannot have ainput less 1 or greater than10!!')
+                        }
+                        else
                         {
                             let newString = "";
-
-                            newString = gValue.split(" ");
                             let stringArr = [];
 
-                            //upper case the first letter and rejoin the words
+                            //split gValue and assign it to newString
+                            newString = gValue.split(" ");
+
+
+                            //upper case the first letter
                             stringArr = newString.map(element => {
                                 return element.charAt(0).toUpperCase() + element.slice(1).toLowerCase();
                             });
 
+                            //rejoin the words
                             gValue = stringArr.join(" ");
+                            console.log(rValue);
                             console.log(gValue);
                         }
 
-
-                        //create an each function to loop through the elements and make sure that the user didn't leave both input fields empty or the rating is less than 1 or grater than 10
-                        $('#rate.edit').each(function(index, item){
-                            console.log(index);
-                            // console.log($(this).val());
-                            rValue = $(this).val();
-
-
-
-                            // console.log(rValue);
-
-                            // $(this).css('background-color', 'red').val('').attr('placeholder', numRating);
-                            if(index == num)
-                            {
-
-
-                                if(rValue === '' && gValue === '')
-                                {
-                                    console.log(gValue);
-                                    // console.log(num);
-
-                                    alert("You did not make any changes to either the rating or the genre section!!!")
-                                }
-                                // console.log(rValue);
-                                else if(rValue < 1 || rValue > 10) {
-
-                                    $(this).css('background-color', 'red').val('').attr('placeholder', numRating);
-
-                                    // rValue = 0.0;
-
-                                    alert('Rating cannot have a input less 1 or greater than 10!!')
-                                }
-                                else
-                                {
-                                    console.log(gValue);
-
-                                }
-
-                            }
-                        });
-
-                        // $('#genre-movie.edit').each(function(index, item){
-                        //     gValue = $(this).val();
-                        //
-                        //
-                        //     if(index == num)
-                        //     {
-                        //         console.log(gValue);
-                        //
-                        //         if(rValue === '' && gValue === '')
-                        //         {
-                        //             console.log(gValue);
-                        //             // console.log(num);
-                        //
-                        //             alert("You did not make any changes to either the rating or the genre section!!!")
-                        //         }
-                        //     }
-
-
-                        // });
-
-                        // alert('add edit')
-
                     });
                 }
+
+
+                //create variables to hold the rValue and the gValue
+                // let rValue = "";
+                // let gValue = "";
+                // console.log($('#rate.edit'));
+                //
+                // if(index == num)
+                // {
+                //     $(this).attr('disabled', false).on('click', function(){
+                //         // console.log(numRating);
+                //         // console.log(stringGenre);
+                //
+                //         // rValue = $('#rate.edit').val();
+                //         // gValue = $(this).parent().next().children[0];
+                //         console.log(num);
+                //         console.log($(parent).find('input'));
+                //         console.log(gValue);
+                //
+                //         // console.log(rValue.text());
+                //         // console.log(gValue);
+                //
+                //         //if gValue is not empty then uppercase the first letter of every word
+                //         if(gValue !== '')
+                //         {
+                //             let newString = "";
+                //
+                //             newString = gValue.split(" ");
+                //             let stringArr = [];
+                //
+                //             //upper case the first letter and rejoin the words
+                //             stringArr = newString.map(element => {
+                //                 return element.charAt(0).toUpperCase() + element.slice(1).toLowerCase();
+                //             });
+                //
+                //             gValue = stringArr.join(" ");
+                //             console.log(gValue);
+                //         }
+                //
+                //
+                //         //create an each function to loop through the elements and make sure that the user didn't leave both input fields empty or the rating is less than 1 or grater than 10
+                //         $('#rate.edit').each(function(index, item){
+                //             console.log(index);
+                //             // console.log($(this).val());
+                //             rValue = $(this).val();
+                //
+                //
+                //
+                //             // console.log(rValue);
+                //
+                //             // $(this).css('background-color', 'red').val('').attr('placeholder', numRating);
+                //             if(index == num)
+                //             {
+                //
+                //
+                //                 if(rValue === '' && gValue === '')
+                //                 {
+                //                     console.log(gValue);
+                //                     // console.log(num);
+                //
+                //                     alert("You did not make any changes to either the rating or the genre section!!!")
+                //                 }
+                //                 // console.log(rValue);
+                //                 else if(rValue < 1 || rValue > 10) {
+                //
+                //                     $(this).css('background-color', 'red').val('').attr('placeholder', numRating);
+                //
+                //                     // rValue = 0.0;
+                //
+                //                     alert('Rating cannot have a input less 1 or greater than 10!!')
+                //                 }
+                //                 else
+                //                 {
+                //                     console.log(gValue);
+                //
+                //                 }
+                //
+                //             }
+                //         });
+                //
+                //         // $('#genre-movie.edit').each(function(index, item){
+                //         //     gValue = $(this).val();
+                //         //
+                //         //
+                //         //     if(index == num)
+                //         //     {
+                //         //         console.log(gValue);
+                //         //
+                //         //         if(rValue === '' && gValue === '')
+                //         //         {
+                //         //             console.log(gValue);
+                //         //             // console.log(num);
+                //         //
+                //         //             alert("You did not make any changes to either the rating or the genre section!!!")
+                //         //         }
+                //         //     }
+                //
+                //
+                //         // });
+                //
+                //         // alert('add edit')
+                //
+                //     });
+                // }
             });
 
             $('#cancel-btn.edit').each(function(index, item){
@@ -260,6 +364,7 @@ function loadMovies()
                 if(index == num)
                 {
                     $(this).attr('disabled', false).on('click', function(){
+
                         loadMovies();
                     })
 
