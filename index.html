@@ -113,7 +113,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td id="movie-id" class="border border_info">1</td>
+                    <td id="movie-id" class="edit border_info invisible">1</td>
                     <td class="border border_info">Roundhay Garden Scene</td>
                     <td class="border border_info">Louis Le Prince</td>
                     <td class="border border_info">1888</td>
@@ -124,7 +124,15 @@
                         <input type="text" disabled>Action
                     </td>
                     <td class="border width-100"><img  id="poster" src="https://demofree.sirv.com/nope-not-here.jpg" alt="movie poster"></td>
-                    <td class="border border_info"><button id="edit-btn" type="button">Edit Movie</button></td>
+                    <td class="border border_info py-4" id="edit-field">
+                        <button id="edit-btn" type="button" class="edit">Edit Movie</button>
+                        <p></p>
+                        <button disabled class="edit" id="save-edit-btn" type="button">Save Edit</button>
+                        <p></p>
+                        <button disabled class="edit" id="cancel-btn" type="button">Cancel</button>
+                        <p></p>
+                        <button disabled class="edit" id="delete-btn">Delete</button>
+                    </td>
                 </tr>
             </tbody>
         </table>

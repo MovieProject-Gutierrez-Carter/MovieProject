@@ -45,7 +45,7 @@ function loadMovies()
 
             // set html elements along with movie data to tableData
             tableData +=  `<tr>
-                <td id="movie-id" class="edit border border_info">${movie.id}</td>
+                <td id="movie-id" class="edit border border_info invisible">${movie.id}</td>
                 <td class="border border_info">${movie.title}</td>
                 <td class="border border_info">${movie.director}</td>
                 <td class="border border_info">${movie.year}</td>
@@ -67,7 +67,7 @@ function loadMovies()
                                   <p></p>
                                   <button disabled class="edit" id="cancel-btn" type="button">Cancel</button>
                                   <p></p>
-                                  <button disabled class="edit" id="delete-btn" type="button">Delete</button>
+                                  <button disabled class="edit" id="delete-btn">Delete</button>
                                </td>
                      </tr>`
             }
@@ -81,7 +81,7 @@ function loadMovies()
                                   <p></p>
                                   <button disabled class="edit" id="cancel-btn" type="button">Cancel</button>
                                   <p></p>
-                                  <button disabled class="edit" id="delete-btn" type="button">Delete</button>
+                                  <button disabled class="edit" id="delete-btn">Delete</button>
                               </td>
                      </tr>`
             }
@@ -261,88 +261,45 @@ function loadMovies()
 
             });
 
-            $('#delete-bnt.edit').on('click', function(){
-
-                console.log($(this));
-
-                if($(this).parent().children()[0].textContent === movieID)
-                {
-                    alert('hi')
-                }
-                // $(this).css('background-color', 'green');
-                // console.log(this);
-
-            });
-
             //call the loadMovies function when the cancel btn is clicked
             $('#cancel-btn.edit').on('click', function(){
                 loadMovies();
             });
 
-            console.log(movieID);
+            $('#delete-btn.edit').on('click', function(){
 
-            $('#delete-movie.edit').on('click', function(){
-                alert('help')
-                $(this).css('background', 'green');
+                // create a warring message letting the user know the movie is about to be deleted
+                let warningMessage = "Are you sure you want to delet this movie from the list!!!";
+
+                //if the confirm message is true proceed to delete movie
+                if(confirm(warningMessage) === true)
+                {
+                    //create a fetch delete to remove movie from the list
+                    fetch(`https://uncovered-real-smartphone.glitch.me/movies/${movieID}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    }).then(() => fetch('https://uncovered-real-smartphone.glitch.me/movies').then(resp => resp.json()).then(data =>{
+                        // console.log(data)
+                    })).then(() => loadMovies()).catch(error => console.error(error));
+                }
             });
-
-            // $('#delete-bnt').each(function(index, item){
-            //     console.log(item);
-            //     $(this).css('background-color', 'green');
-            // });
-
-
-
-
-            // //clicking the delete button will delete the movie from the list
-            // $('#delete-btn.edit').each(function(index, item){
-            //     if(index == num)
-            //     {
-            //         $(this).attr('disabled', false).on('click', function(){
-            //
-            //             //create a warring message letting the user know the movie is about to be deleted
-            //             let warningMessage = "Are you sure you want to delet this movie from the list!!!";
-            //
-            //             //if the confirm message is true proceed to delete movie
-            //             if(confirm(warningMessage) === true)
-            //             {
-            //                 //capture the value of the movie id field
-            //                 $('#movie-id.edit').each(function(index, item){
-            //
-            //                     if(index == num)
-            //                     {
-            //                         movieID = $(this).text();
-            //                     }
-            //
-            //                     //create a fetch delete to remove movie from the list
-            //                     fetch(`https://uncovered-real-smartphone.glitch.me/movies/${movieID}`, {
-            //                         method: 'DELETE',
-            //                         headers: {
-            //                             'Content-Type': 'application/json',
-            //                         }
-            //                     }).then(() => fetch('https://uncovered-real-smartphone.glitch.me/movies').then(resp => resp.json()).then(data =>{
-            //                         // console.log(data)
-            //                     })).then(() => loadMovies()).catch(error => console.error(error));
-            //                 });
-            //
-            //             }
-            //         });
-            //
-            //     }
-            // });
-
-            // loadMovies();
         });
 
         $('#sortTable').DataTable({
             paging: false,
             // ordering: false,
-            info: false
+            info: false,
+            // dDestroy: true
         });
     }).catch(error => console.error(error));
 
-
 }
+
+$('#delete-bnt.edit').on('click', function(){
+    alert('you clicked me');
+});
 
 // created a function of addMovie that has a parameter of title then fetch the title and the api, returned data with json, logged data.
 function addMovie(title)
@@ -352,9 +309,6 @@ function addMovie(title)
         return data.json()
 
     }).then(data => {
-
-        console.log(data);
-        console.log(data.Error);
         // created an if/else statement, then query id of movie-error, on click of the submit button will change the text.
         if(data.Error === 'Movie not found!')
         {
@@ -374,18 +328,10 @@ function addMovie(title)
             let movYear = data.Year;
             let movRat = data.imdbRating;
             let movGenre = data.Genre;
-            let tableData = ""
-            // // logged all movie info to view.
-            // console.log(movTitle);
-            // console.log(movDirec);
-            // console.log(movYear);
-            // console.log(movRat);
-            // console.log(movGenre);
 
             //create a fetch to capture the movie titles and compare it to the movieTitle
             fetch('https://uncovered-real-smartphone.glitch.me//movies').then((data) =>{
             // //json format
-            // console.log(data);
                 return data.json()
             }).then(data => {
 
@@ -397,9 +343,7 @@ function addMovie(title)
                     // console.log(data);
 
                     movieArr.push(movie.title);
-                })
-
-                // console.log(movieArr);
+                });
 
                 //create a variable to check if the movie is already in our list
                 let movieAdd = false;
@@ -421,7 +365,8 @@ function addMovie(title)
 
                 if(movieAdd === false)
                 {
-                    alert("The movie you are trying to add is already in your list")
+                    alert("The movie you are trying to add is already in your list");
+                    $('#movieInput').val('');
                 }
                 else
                 {
@@ -433,7 +378,6 @@ function addMovie(title)
                         // console.log(data);
                         return data.json()
                         }).then(data => {
-                            // console.log(data);
 
                             //create a variable to add the movie fields in our glitch server
                             const addMovieInfo = {
@@ -457,12 +401,11 @@ function addMovie(title)
 
                         }).catch(error => console.error(error));
                 }
-                console.log(movieAdd);
             }).catch(error => console.error(error));
         }
 
     }).catch(error => console.error(error));
-}
+};
 
 loadMovies();
 
@@ -470,18 +413,13 @@ $('.sort-table').on('click', function(){
     $('.table-sortable').sortable();
 });
 
-
-
-// $('.table-sortable').tsortable();
-
 // connect button functionality on click function using id of btn-submit
 $('#btn-submit').on('click', function () {
     // created a variable of searchResults and give it a value of the id of movieInput
-    let searchResults = $('#movieInput').val();
-    console.log(searchResults);
+    let movieTitle = $('#movieInput').val();
 
     //call addMovie function and pass searchResults
-    addMovie(searchResults);
+    addMovie(movieTitle);
 });
 
 //created a function to remove the error below the input field once the user starts typing
