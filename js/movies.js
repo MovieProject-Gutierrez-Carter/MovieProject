@@ -45,43 +45,43 @@ function loadMovies()
 
             // set html elements along with movie data to tableData
             tableData +=  `<tr>
-                <td class="border border_info">${movie.title}<p></p><span id="movie-id" class="edit invisible">${movie.id}</span></td>
+                <td id="movie-id" class="edit border border_info">${movie.id}</td>
+                <td class="border border_info">${movie.title}</td>
                 <td class="border border_info">${movie.director}</td>
                 <td class="border border_info">${movie.year}</td>
-                <td class="border border_info">
-                    <input id="rate" class="edit" type="number" min="1.0" max="10.0" disabled="true" placeholder="${movie.rating}">
-                </td>
-                <td class="border border_info">
-                    <input id="genre-movie" class="edit" type="text" disabled="true" placeholder="${movie.genre}">
-                </td>`
+                <td id="movie-rating" class="edit border border_info">${movie.rating}</td>
+                <td id="movie-genre" class="edit border border_info">${movie.genre}</td>`
+
+            // `<input id="rate" class="edit" type="number" min="1.0" max="10.0" disabled="true" placeholder="${movie.rating}">`
+
+            // `<input id="genre-movie" class="edit" type="text" disabled="true" placeholder="${movie.genre}">`
+
             // use if/else statement, if movie image is null then show not found image, else image is found then show original movie poster
             if(movie.img === null)
             {
                 tableData += `<td class="border width-100"><img  id="poster" src="https://demofree.sirv.com/nope-not-here.jpg" alt="movie poster"></td>
-                               <td class="border border_info d-flex flex-column justify-content-start align-items-start py-1" id="edit-field">
-                                   <button data-bs-target="#edit" id="edit-btn" type="button" class="edit">Edit Movie</button>
-                                  <span class="invisible">${count++}</span>
+                               <td class="border border_info py-4" id="edit-field">
+                                   <button id="edit-btn" type="button" class="edit">Edit Movie</button>
                                   <p></p>
-                                  <button disabled class="edit" id="save-edit-btn">Save Edit</button>
+                                  <button disabled class="edit" id="save-edit-btn" type="button">Save Edit</button>
                                   <p></p>
-                                  <button disabled class="edit" id="cancel-btn">Cancel</button>
+                                  <button disabled class="edit" id="cancel-btn" type="button">Cancel</button>
                                   <p></p>
-                                  <button disabled class="edit" id="delete-btn">Delete</button>
+                                  <button disabled class="edit" id="delete-btn" type="button">Delete</button>
                                </td>
                      </tr>`
             }
             else
             {
                 tableData += `<td class="border width-100"><img  id="poster" src="https://image.tmdb.org/t/p/original${movie.img}" alt="movie poster"></td>
-                              <td class="border border_info d-flex flex-column justify-content-start align-items-start py-1" id="edit-field">
-                                  <button data-bs-target="#edit" id="edit-btn" type="button" class="edit">Edit Movie</button>
-                                  <span class="invisible">${count++}</span>
+                              <td class="border border_info py-4" id="edit-field">
+                                  <button id="edit-btn" type="button" class="edit">Edit Movie</button>
                                   <p></p>
-                                  <button disabled class="edit" id="save-edit-btn">Save Edit</button>
+                                  <button disabled class="edit" id="save-edit-btn" type="button">Save Edit</button>
                                   <p></p>
-                                  <button disabled class="edit" id="cancel-btn">Cancel</button>
+                                  <button disabled class="edit" id="cancel-btn" type="button">Cancel</button>
                                   <p></p>
-                                  <button disabled class="edit" id="delete-btn">Delete</button>
+                                  <button disabled class="edit" id="delete-btn" type="button">Delete</button>
                               </td>
                      </tr>`
             }
@@ -97,250 +97,247 @@ function loadMovies()
         //added a btn on click function for #edit-btn to pop up a dialog box to update movie information
         $('#edit-btn.edit').on('click', function(){
 
-
-
             //create variables to store movie data for editing
             let num = 0;
             let numRating = 0.0;
             let movieID = 0;
             let stringGenre = "";
-            let rValue = "";
-            let gValue = "";
+            let ratingValue = "";
+            let genreValue = "";
 
-            //assign the value in span element to the num
-            num = $(this).parent().find('span').text();
+            //disable all edit buttons
+            $('#edit-btn.edit').attr('disabled', true);
 
-            // console.log(num);
-            // console.log($('#edit-btn.edit').length);
+            //enable the save-edit, cancel, and delete buttons
+            $(this).parent().parent().children()[7].children[2].disabled = false;
+            $(this).parent().parent().children()[7].children[4].disabled = false;
+            $(this).parent().parent().children()[7].children[6].disabled = false;
 
+            //assign the proper data from the table onto the variables
+            movieID = $(this).parent().parent().children()[0].textContent;
+            numRating = $(this).parent().parent().children()[4].textContent;
+            stringGenre = $(this).parent().parent().children()[5].textContent;
 
-            //creat an each function for the #edit-btn to disable the edit btn when an edit btn is click to only allow the user to edit one move at a time
-            $('#edit-btn.edit').each(function(index, item){
+            //remove the text value and insert an input tag for the rating field being edited
+            $('#movie-rating.edit').each(function(index, item){
 
-                $('#edit-btn.edit').attr('disabled', true);
-
-            });
-
-            // console.log($(this).parent().find('span').text());
-
-            //assign the objects from the elements of #rate and #genre-movie in the appropriate variables
-            let rating = $('#rate.edit');
-            let genreInfo = $('#genre-movie.edit')
-
-            // console.log(rating);
-            // console.log(genreInfo);
-
-            //assign the values from the current elements of rating and genre in the appropriate variables
-            numRating = parseFloat(rating[num].attributes.placeholder.value);
-            stringGenre = genreInfo[num].attributes.placeholder.value;
-
-            // console.log(numRating);
-            // console.log(stringGenre);
-
-            // console.log(rating[num].attributes[6].value);
-
-
-            //create an each function for the #rate to enable editing
-           $('#rate.edit').each(function(index, item){
-               if(index == num)
-               {
-                   $(this).attr('disabled', false).val(numRating);
-
-               }
-           });
-
-           //create an each function for the #genre-movie to enable editing
-            $('#genre-movie.edit').each(function(index, item){
-                if(index == num)
+                if($(this).parent().children()[0].textContent === movieID)
                 {
-                    $(this).attr('disabled', false).val(stringGenre);
+                    $(this).text('');
+                    $(this).html(`<input id="rating" class="edit" type="number" min="1.0" max="10.0" placeholder="${numRating}">`)
                 }
+            })
+
+            //insert the rating value and allow the user to update if needed
+            $('#rating').each(function(index, input){
+                $(this).val(parseFloat((numRating)));
             });
 
-            //create an each function for the #save-edit-btn to display the save edit button
-            $('#save-edit-btn.edit').each(function(index, item){
+            //remove the text value and insert an input tag for the genre field being edited
+            $('#movie-genre.edit').each(function(index, item){
 
-                if(index == num)
+                // console.log(item);
+
+                if($(this).parent().children()[0].textContent === movieID)
                 {
-                    $(this).attr('disabled', false).on('click', function(){
+                    $(this).text('');
+                    $(this).html(`<input id="genre-movie" class="edit" type="text" placeholder="${stringGenre}">`)
+                }
+            })
 
-                        //capture the value of the rating field
-                        $('#rate.edit').each(function(index, item){
+            //insert the genre value and allow the user to update if needed
+            $('#genre-movie').each(function(index, input){
 
-                            if(index == num)
-                            {
-                                rValue = $(this).val();
-                            }
-                        });
+                $(this).val((stringGenre));
+            });
 
-                        //capture the value of the genre field
-                        $('#genre-movie.edit').each(function(index, item){
+            //if the user clicks the save button capture the rating and the genre information and passed them through conditions for validation
+            $('#save-edit-btn.edit').on('click', function(){
 
-                            if(index == num)
-                            {
-                                gValue = $(this).val();
-                            }
-                        });
+                //assign the rating value to ratingValue
+                $('#rating').each(function(index, input){
 
-                        //capture the value of the movie id field
-                        $('#movie-id.edit').each(function(index, item){
+                    ratingValue = $(this).val();
+                    console.log(ratingValue);
+                });
 
-                            if(index == num)
-                            {
-                                movieID = $(this).text();
-                            }
-                        });
+                //assign the genre value to genreValue
+                $('#genre-movie').each(function(index, input){
 
-                        // console.log(rValue);
-                        // console.log(numRating);
-                        // console.log(gValue);
-                        // console.log(stringGenre);
+                    genreValue =  $(this).val();
+                    console.log(genreValue);
+                });
 
+                //check if both the rating and the genre field are empty, if they are let the user know that both of those fields cannot be left empty
+                if(ratingValue === '' && genreValue === '')
+                {
+                    $('#rating.edit').each(function(index, item){
 
-                        //display a message to the user if both the rating and the genre field are empty
-                        if(rValue === '' && gValue === '')
-                        {
-                            $('#rate.edit').each(function(index, item){
-
-                                if(index == num)
-                                {
-                                    $(this).val(numRating)
-                                }
-                            });
-
-                            $('#genre-movie.edit').each(function(index, item){
-
-                                if(index == num)
-                                {
-                                    $(this).val(stringGenre)
-                                }
-                            });
-
-                            alert("You did not make any changes to either the rating or the genre section!!!")
-                        }
-                        //display a message to the user if the genre field is empty
-                        else if(gValue === "")
-                        {
-                            $('#genre-movie.edit').each(function(index, item){
-
-                                if(index == num)
-                                {
-                                    $(this).val(stringGenre)
-                                }
-                            });
-
-                            alert("You cannot have the genre section empty, please try again!!!")
-
-                        }
-                        //display a message to the user if rating is empty, or if it is less than 1 and grater than 10
-                        else if(rValue < 1 || rValue > 10)
-                        {
-                            $('#rate.edit').each(function(index, item){
-
-                                if(index == num)
-                                {
-                                    $(this).val(numRating);
-                                }
-                            });
-
-                            alert('Rating cannot have ainput less 1 or greater than10!!')
-                        }
-                        else
-                        {
-                            let newString = "";
-                            let stringArr = [];
-
-                            //split gValue and assign it to newString
-                            newString = gValue.split(" ");
-
-
-                            //upper case the first letter
-                            stringArr = newString.map(element => {
-                                return element.charAt(0).toUpperCase() + element.slice(1).toLowerCase();
-                            });
-
-                            //rejoin the words
-                            gValue = stringArr.join(" ");
-                            console.log(rValue);
-                            console.log(gValue);
-                            console.log(movieID);
-
-                            //create a variable to edith the rating and genre fields in our glitch server
-                            const editMovie = {
-                                "rating": rValue,
-                                "genre": gValue
-                            };
-
-                            //update data
-                            fetch(`https://uncovered-real-smartphone.glitch.me/movies/${movieID}`, {
-                                method: 'PATCH',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify(editMovie),
-                            }).then(() => fetch('https://uncovered-real-smartphone.glitch.me/movies').then(resp => resp.json()).then(data =>{
-                                // console.log(data)
-                            })).then(() => loadMovies()).catch(error => console.error(error));
-
-
-                        }
-
+                            $(this).val(numRating);
                     });
+
+                    $('#genre-movie.edit').each(function(index, item){
+
+                            $(this).val(stringGenre);
+                    });
+
+                    alert("You did not make any changes to either the rating or the genre section!!!")
                 }
-            });
-
-            //if the user clicks the cancel button then call the loadMovie fucntion
-            $('#cancel-btn.edit').each(function(index, item){
-
-                if(index == num)
+                //display a message to the user if the genre field is empty
+                else if(genreValue === "")
                 {
-                    $(this).attr('disabled', false).on('click', function(){
+                    $('#genre-movie.edit').each(function(index, item){
 
-                        loadMovies();
-                    })
+                            $(this).val(stringGenre);
+                    });
+
+                    alert("You cannot have the genre section empty, please try again!!!")
 
                 }
-            });
-
-            //clicking the delete button will delete the movie from the list
-            $('#delete-btn.edit').each(function(index, item){
-                if(index == num)
+                //display a message to the user if rating is empty, or if it is less than 1 and grater than 10
+                else if(ratingValue < 1 || ratingValue > 10)
                 {
-                    $(this).attr('disabled', false).on('click', function(){
+                    $('#rating.edit').each(function(index, item){
 
-                        //create a warring message letting the user know the movie is about to be deleted
-                        let warningMessage = "Are you sure you want to delet this movie from the list!!!";
+                            $(this).val(numRating);
+                    });
 
-                        //if the confirm message is true proceed to delete movie
-                        if(confirm(warningMessage) === true)
+                    alert('Rating cannot have ainput less 1 or greater than10!!')
+                }
+                else
+                {
+                    //create an empty string and empty array variables to fix the uppercase of any words being passed to the genre list
+                    let newString = "";
+                    let stringArr = [];
+
+                    //split genreValue and assign it to newString
+                    newString = genreValue.split(" ");
+
+
+                    //upper case the first letter
+                    stringArr = newString.map(element => {
+                        return element.charAt(0).toUpperCase() + element.slice(1).toLowerCase();
+                    });
+
+                    //rejoin the words
+                    genreValue = stringArr.join(" ");
+                    console.log(genreValue);
+
+                    // insert the rating value
+                    $('#movie-rating.edit').each(function(index, input){
+
+                        if($(this).parent().children()[0].textContent === movieID)
                         {
-                            //capture the value of the movie id field
-                            $('#movie-id.edit').each(function(index, item){
-
-                                if(index == num)
-                                {
-                                    movieID = $(this).text();
-                                }
-
-                                //create a fetch delete to remove movie from the list
-                                fetch(`https://uncovered-real-smartphone.glitch.me/movies/${movieID}`, {
-                                    method: 'DELETE',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    }
-                                }).then(() => fetch('https://uncovered-real-smartphone.glitch.me/movies').then(resp => resp.json()).then(data =>{
-                                    // console.log(data)
-                                })).then(() => loadMovies()).catch(error => console.error(error));
-                            });
-
+                            $(this).text(ratingValue);
                         }
                     });
 
+                    // insert the genre value
+                    $('#movie-genre.edit').each(function(index, input){
 
+                        if($(this).parent().children()[0].textContent === movieID)
+                        {
+                            $(this).text(genreValue);
+                        }
+                    });
+
+                    // create a variable to edith the rating and genre fields in our glitch server
+                    const editMovie = {
+                        "rating": ratingValue,
+                        "genre": genreValue
+                    };
+
+                    //update data
+                    fetch(`https://uncovered-real-smartphone.glitch.me/movies/${movieID}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(editMovie),
+                    }).then(() => fetch('https://uncovered-real-smartphone.glitch.me/movies').then(resp => resp.json()).then(data =>{
+                        // console.log(data)
+                    })).then(() => loadMovies()).catch(error => console.error(error));
                 }
+
             });
+
+            $('#delete-bnt.edit').on('click', function(){
+
+                console.log($(this));
+
+                if($(this).parent().children()[0].textContent === movieID)
+                {
+                    alert('hi')
+                }
+                // $(this).css('background-color', 'green');
+                // console.log(this);
+
+            });
+
+            //call the loadMovies function when the cancel btn is clicked
+            $('#cancel-btn.edit').on('click', function(){
+                loadMovies();
+            });
+
+            console.log(movieID);
+
+            $('#delete-movie.edit').on('click', function(){
+                alert('help')
+                $(this).css('background', 'green');
+            });
+
+            // $('#delete-bnt').each(function(index, item){
+            //     console.log(item);
+            //     $(this).css('background-color', 'green');
+            // });
+
+
+
+
+            // //clicking the delete button will delete the movie from the list
+            // $('#delete-btn.edit').each(function(index, item){
+            //     if(index == num)
+            //     {
+            //         $(this).attr('disabled', false).on('click', function(){
+            //
+            //             //create a warring message letting the user know the movie is about to be deleted
+            //             let warningMessage = "Are you sure you want to delet this movie from the list!!!";
+            //
+            //             //if the confirm message is true proceed to delete movie
+            //             if(confirm(warningMessage) === true)
+            //             {
+            //                 //capture the value of the movie id field
+            //                 $('#movie-id.edit').each(function(index, item){
+            //
+            //                     if(index == num)
+            //                     {
+            //                         movieID = $(this).text();
+            //                     }
+            //
+            //                     //create a fetch delete to remove movie from the list
+            //                     fetch(`https://uncovered-real-smartphone.glitch.me/movies/${movieID}`, {
+            //                         method: 'DELETE',
+            //                         headers: {
+            //                             'Content-Type': 'application/json',
+            //                         }
+            //                     }).then(() => fetch('https://uncovered-real-smartphone.glitch.me/movies').then(resp => resp.json()).then(data =>{
+            //                         // console.log(data)
+            //                     })).then(() => loadMovies()).catch(error => console.error(error));
+            //                 });
+            //
+            //             }
+            //         });
+            //
+            //     }
+            // });
 
             // loadMovies();
+        });
+
+        $('#sortTable').DataTable({
+            paging: false,
+            // ordering: false,
+            info: false
         });
     }).catch(error => console.error(error));
 
