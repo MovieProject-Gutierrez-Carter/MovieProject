@@ -5,6 +5,7 @@
 
 function loadMovies()
 {
+
     fetch('https://uncovered-real-smartphone.glitch.me//movies').then((data) =>{
         // //json format
         // console.log(data);
@@ -279,14 +280,14 @@ function loadMovies()
             });
         });
 
-        $('#sortTable').destroy();
-
         $('#sortTable').DataTable({
             paging: false,
             // ordering: false,
             info: false,
             // dDestroy: true
         });
+
+
     }).catch(error => console.error(error));
 
 }
