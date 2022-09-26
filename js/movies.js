@@ -45,7 +45,7 @@ function loadMovies()
 
             // set html elements along with movie data to tableData
             tableData +=  `<tr>
-                <td id="movie-id" class="edit border border_info invisible">${movie.id}</td>
+                <td id="movie-id" class="edit border_info invisible">${movie.id}</td>
                 <td class="border border_info">${movie.title}</td>
                 <td class="border border_info">${movie.director}</td>
                 <td class="border border_info">${movie.year}</td>
@@ -278,6 +278,8 @@ function loadMovies()
                 });
             });
         });
+
+        $('#sortTable').destroy();
 
         $('#sortTable').DataTable({
             paging: false,
