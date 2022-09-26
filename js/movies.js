@@ -1,7 +1,7 @@
 "use strict";
 
 //below is the link to the glitch http site
-//https://saber-dear-spoonbill.glitch.me/
+//https://uncovered-real-smartphone.glitch.me/
 
 function loadMovies()
 {
@@ -262,9 +262,6 @@ function loadMovies()
             });
 
             $('#delete-btn.edit').on('click', function(){
-
-                // create a warring message letting the user know the movie is about to be deleted
-                let warningMessage = "Are you sure you want to delete this movie from the list!!!";
 
                 //proceed to delete the movie if the user clicks delete
                 $('#movie-delete-btn').on('click', function(){
