@@ -2,11 +2,12 @@
 
 //below is the link to the glitch http site
 //https://uncovered-real-smartphone.glitch.me/
+//https://traveling-zippy-mahogany.glitch.me/
 
 function loadMovies()
 {
 
-    fetch('https://uncovered-real-smartphone.glitch.me//movies').then((data) =>{
+    fetch('https://traveling-zippy-mahogany.glitch.me/movies').then((data) =>{
         // //json format
         // console.log(data);
         return data.json()
@@ -32,13 +33,13 @@ function loadMovies()
                 };
 
                 //update data
-                fetch(`https://uncovered-real-smartphone.glitch.me/movies/${movie.id}`, {
+                fetch(`https://traveling-zippy-mahogany.glitch.me/movies/${movie.id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(editImg),
-                }).then(() => fetch('https://uncovered-real-smartphone.glitch.me/movies').then(resp => resp.json()).then(data =>{
+                }).then(() => fetch('https://traveling-zippy-mahogany.glitch.me/movies').then(resp => resp.json()).then(data =>{
                     // console.log(data)
                 }));
 
@@ -242,13 +243,13 @@ function loadMovies()
                     };
 
                     //update data
-                    fetch(`https://uncovered-real-smartphone.glitch.me/movies/${movieID}`, {
+                    fetch(`https://traveling-zippy-mahogany.glitch.me/movies/${movieID}`, {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify(editMovie),
-                    }).then(() => fetch('https://uncovered-real-smartphone.glitch.me/movies').then(resp => resp.json()).then(data =>{
+                    }).then(() => fetch('https://traveling-zippy-mahogany.glitch.me/movies').then(resp => resp.json()).then(data =>{
                         // console.log(data)
                     })).then(() => loadMovies()).catch(error => console.error(error));
 
@@ -268,25 +269,31 @@ function loadMovies()
                 $('#movie-delete-btn').on('click', function(){
 
                     //create a fetch delete to remove movie from the list
-                    fetch(`https://uncovered-real-smartphone.glitch.me/movies/${movieID}`, {
+                    fetch(`https://traveling-zippy-mahogany.glitch.me/movies/${movieID}`, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
                         }
-                    }).then(() => fetch('https://uncovered-real-smartphone.glitch.me/movies').then(resp => resp.json()).then(data =>{
+                    }).then(() => fetch('https://traveling-zippy-mahogany.glitch.me/movies').then(resp => resp.json()).then(data =>{
                         // console.log(data)
                     })).then(() => loadMovies()).catch(error => console.error(error));
                 });
             });
         });
 
-        $('#sortTable').DataTable({
-            paging: false,
-            // ordering: false,
-            info: false,
-            // dDestroy: true
-        });
-
+        // let table = $('#sortTable').DataTable();
+        //
+        // $.getJSON( 'newTable', null, function ( json ) {
+        //     table.destroy();
+        //     $('#sortTable').empty(); // empty in case the columns change
+        //
+        //     table = $('#sortTable').DataTable( {
+        //         columns: json.columns,
+        //         data:    json.rows,
+        //         paging: false,
+        //         info: false
+        //     } );
+        // } );
 
     }).catch(error => console.error(error));
 
@@ -321,7 +328,7 @@ function addMovie(title)
             let movGenre = data.Genre;
 
             //create a fetch to capture the movie titles and compare it to the movieTitle
-            fetch('https://uncovered-real-smartphone.glitch.me//movies').then((data) =>{
+            fetch('https://traveling-zippy-mahogany.glitch.me/movies').then((data) =>{
             // //json format
                 return data.json()
             }).then(data => {
@@ -378,7 +385,7 @@ function addMovie(title)
                             };
 
                             //update data
-                            fetch(`https://uncovered-real-smartphone.glitch.me/movies`, {
+                            fetch(`https://traveling-zippy-mahogany.glitch.me/movies`, {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
