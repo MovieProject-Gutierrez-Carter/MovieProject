@@ -52,10 +52,6 @@ function loadMovies()
                 <td id="movie-rating" class="edit border border_info">${movie.rating}</td>
                 <td id="movie-genre" class="edit border border_info">${movie.genre}</td>`
 
-            // `<input id="rate" class="edit" type="number" min="1.0" max="10.0" disabled="true" placeholder="${movie.rating}">`
-
-            // `<input id="genre-movie" class="edit" type="text" disabled="true" placeholder="${movie.genre}">`
-
             // use if/else statement, if movie image is null then show not found image, else image is found then show original movie poster
             if(movie.img === null)
             {
@@ -63,11 +59,11 @@ function loadMovies()
                                <td class="border border_info py-4" id="edit-field">
                                    <button id="edit-btn" type="button" class="edit">Edit Movie</button>
                                   <p></p>
-                                  <button disabled class="edit" id="save-edit-btn" type="button">Save Edit</button>
+                                  <button disabled class="edit btn btn-primary" data-bs-toggle="modal" data-bs-target="#save-edit-movie-modal" id="save-edit-btn" type="button">Save Edit</button>
                                   <p></p>
-                                  <button disabled class="edit" id="cancel-btn" type="button">Cancel</button>
+                                  <button disabled class="edit btn btn-dark" id="cancel-btn" type="button">Cancel</button>
                                   <p></p>
-                                  <button disabled class="edit" id="delete-btn">Delete</button>
+                                  <button disabled class="edit btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-movie-modal" id="delete-btn">Delete</button>
                                </td>
                      </tr>`
             }
@@ -77,16 +73,14 @@ function loadMovies()
                               <td class="border border_info py-4" id="edit-field">
                                   <button id="edit-btn" type="button" class="edit">Edit Movie</button>
                                   <p></p>
-                                  <button disabled class="edit" id="save-edit-btn" type="button">Save Edit</button>
+                                  <button disabled class="edit btn btn-primary" data-bs-toggle="modal" data-bs-target="#save-edit-movie-modal" id="save-edit-btn" type="button">Save Edit</button>
                                   <p></p>
-                                  <button disabled class="edit" id="cancel-btn" type="button">Cancel</button>
+                                  <button disabled class="edit btn btn-dark" id="cancel-btn" type="button">Cancel</button>
                                   <p></p>
-                                  <button disabled class="edit" id="delete-btn">Delete</button>
+                                  <button disabled class="edit btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-movie-modal" id="delete-btn">Delete</button>
                               </td>
                      </tr>`
             }
-
-            // console.log(movie.img);
         });
         // use tbody element in html with value of tableData
         // show loading spinner with id of loading with css styling
@@ -181,7 +175,7 @@ function loadMovies()
                             $(this).val(stringGenre);
                     });
 
-                    alert("You did not make any changes to either the rating or the genre section!!!")
+                    $('#save-edit-error').text("You did not make any changes to either the rating or the genre section!!!");
                 }
                 //display a message to the user if the genre field is empty
                 else if(genreValue === "")
@@ -191,7 +185,7 @@ function loadMovies()
                             $(this).val(stringGenre);
                     });
 
-                    alert("You cannot have the genre section empty, please try again!!!")
+                    $('#save-edit-error').text("You cannot have the genre section empty, please try again!!!");
 
                 }
                 //display a message to the user if rating is empty, or if it is less than 1 and grater than 10
@@ -202,7 +196,7 @@ function loadMovies()
                             $(this).val(numRating);
                     });
 
-                    alert('Rating cannot have ainput less 1 or greater than10!!')
+                    $('#save-edit-error').text('Rating cannot have ainput less 1 or greater than 10!!');
                 }
                 else
                 {
@@ -221,7 +215,6 @@ function loadMovies()
 
                     //rejoin the words
                     genreValue = stringArr.join(" ");
-                    console.log(genreValue);
 
                     // insert the rating value
                     $('#movie-rating.edit').each(function(index, input){
@@ -257,6 +250,8 @@ function loadMovies()
                     }).then(() => fetch('https://uncovered-real-smartphone.glitch.me/movies').then(resp => resp.json()).then(data =>{
                         // console.log(data)
                     })).then(() => loadMovies()).catch(error => console.error(error));
+
+                    $('#save-edit-error').text('The movie was edited, and saved!!');
                 }
 
             });
@@ -269,11 +264,11 @@ function loadMovies()
             $('#delete-btn.edit').on('click', function(){
 
                 // create a warring message letting the user know the movie is about to be deleted
-                let warningMessage = "Are you sure you want to delet this movie from the list!!!";
+                let warningMessage = "Are you sure you want to delete this movie from the list!!!";
 
-                //if the confirm message is true proceed to delete movie
-                if(confirm(warningMessage) === true)
-                {
+                //proceed to delete the movie if the user clicks delete
+                $('#movie-delete-btn').on('click', function(){
+
                     //create a fetch delete to remove movie from the list
                     fetch(`https://uncovered-real-smartphone.glitch.me/movies/${movieID}`, {
                         method: 'DELETE',
@@ -283,7 +278,7 @@ function loadMovies()
                     }).then(() => fetch('https://uncovered-real-smartphone.glitch.me/movies').then(resp => resp.json()).then(data =>{
                         // console.log(data)
                     })).then(() => loadMovies()).catch(error => console.error(error));
-                }
+                });
             });
         });
 
@@ -296,10 +291,6 @@ function loadMovies()
     }).catch(error => console.error(error));
 
 }
-
-$('#delete-bnt.edit').on('click', function(){
-    alert('you clicked me');
-});
 
 // created a function of addMovie that has a parameter of title then fetch the title and the api, returned data with json, logged data.
 function addMovie(title)
@@ -365,14 +356,11 @@ function addMovie(title)
 
                 if(movieAdd === false)
                 {
-                    alert("The movie you are trying to add is already in your list");
+                    $('#movie-error').text("The movie you are trying to add is already in your list");
                     $('#movieInput').val('');
                 }
                 else
                 {
-                    alert("Adding the movie");
-
-
                     fetch(`https://api.themoviedb.org/3/search/movie?api_key=${THE_MOVIE_API_KEY}&query=${movTitle}`).then((data) =>{
                         // //json format
                         // console.log(data);
@@ -400,6 +388,9 @@ function addMovie(title)
                             }).then(() => loadMovies()).catch(error => console.error(error));
 
                         }).catch(error => console.error(error));
+
+                    $('#movie-error').text("Your movie was add, you may add another movie or click the cancel button to exit!!");
+                    $('#movieInput').val('');
                 }
             }).catch(error => console.error(error));
         }
@@ -408,10 +399,6 @@ function addMovie(title)
 };
 
 loadMovies();
-
-$('.sort-table').on('click', function(){
-    $('.table-sortable').sortable();
-});
 
 // connect button functionality on click function using id of btn-submit
 $('#btn-submit').on('click', function () {

@@ -32,68 +32,124 @@
         #edit-field>button {
             width: 100px;
         }
+        #close-form {
+            color: red;
+        }
+        #movie-header {
+            text-align: center;
+        }
+        .modal-header {
+            background: #B0C4DE;
+        }
+        #add-movie-btn {
+            margin-left: 50px;
+        }
+        #delete-movie-header {
+            background: #800000;
+            color: #fff;
+        }
     </style>
 
 </head>
 <body>
-    <h1 class="text-center">Movie Collections</h1>
+    <h1 class="text-center mt-3">Movie Collection</h1>
 
     <div class="container">
-        <div class="row">
+        <div>
+            <button id="add-movie-btn" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-movie-modal">Add Movie</button>
+        </div>
+    </div>
 
-                <div class="col">
-                    <label for="movieInput">Title</label>
-                    <input type="text" id="movieInput">
+    <!-- Modal Add New Movie Button -->
+    <div class="container mt-3">
+        <div class="modal" id="add-movie-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                            <div class="col">
+                                <h5 class="align-items-center justify-center modal-title"><strong>Please Enter A New Movie To Add</strong></h5>
+                            </div>
+                            <div class="col-1">
+                                <button id="close-form" type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label"><strong>New Movie Title:</strong></label>
+                                <input id="movieInput" type="text" class="form-control">
+                            </div>
+                            <div class="col">
+                                <h4 id="movie-error"></h4>
+                            </div>
+                        </form>
+                        <div class="modal-footer">
+                            <button id="btn-submit" class="btn btn-primary">Submit</button>
+                            <button id="cancel-add-movie" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
                 </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h2 id="movie-error"></h2>
-            </div>
-        </div>
-        <div class="row my-3">
-            <div class="col-9">
-                <button id="btn-submit" type="button">Add Movie</button>
             </div>
         </div>
     </div>
 
+    <!-- Modal Edit Movie Info Warning Message -->
+    <div class="container mt-3">
+        <div class="modal" id="save-edit-movie-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="col">
+                            <h5 class="align-items-center justify-center modal-title"><strong>Movie Edit Message</strong></h5>
+                        </div>
+                        <div class="col-1">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <label id="save-edit-title" class="form-label"><strong>Message below:</strong></label>
+                            <h4 id="save-edit-error"></h4>
+                        </form>
+                        <div class="modal-footer">
+                            <button class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Modal Delete Movie Info Warning Message -->
+    <div class="container mt-3">
+        <div class="modal" id="delete-movie-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id="delete-movie-header" class="modal-header">
+                        <div class="col">
+                            <h5 class="align-items-center justify-center modal-title"><strong>Movie Delete Message</strong></h5>
+                        </div>
+                        <div class="col-1">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <h2>Are you sure you want to delete this movie!!!</h2>
+                        </form>
+                        <div class="modal-footer">
+                            <button id="movie-delete-btn" class="btn btn-primary" data-bs-dismiss="modal">Delete</button>
+                            <button class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="d-flex justify-content-center">
         <div id="loading" class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
-
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit">
-        Launch demo modal
-    </button>
-
-
-    <!-- Modal -->
-    <div id="edit" class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -136,10 +192,6 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-
-    <div id="image-body">
-
     </div>
 
 
